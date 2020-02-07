@@ -1,0 +1,102 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 0;
+}
+
+.gameOver {
+    font-size: 105px;
+    font-weight: 600;
+    color: black;
+    font-style: italic;
+    display: none;
+    position: absolute;
+    top: 35%;
+    width: 650px;
+}
+
+/* 버튼 */
+
+.stopBtn {
+    background-color: red;
+}
+
+.startBtn {
+    background-color: yellow;
+}
+
+.btn button{
+    width: 200px;
+    font-size: 30px;
+    border: none;
+    margin: 20px 0;
+    outline: none;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 3px;
+
+}
+
+/* 귀신 setting*/
+
+.ghost-bye {
+    display: none;
+}
+
+.ghost-die {
+    background-position: 44px;
+}
+
+.ghost {
+    width: 44px;
+    height: 54px;
+    background-image: url("images/enemy.png");
+    position: absolute;
+    top: 0px;
+}
+
+
+/* 영웅 setting */
+
+
+.hero-right {
+    background-position-x: 35px;
+}
+
+.hero-left{
+    background-position-x: 70px;
+}
+
+
+
+.hero {
+    width: 35px;
+    height: 54px;
+    background-image: url("images/hero.png");
+    position: absolute;
+    bottom: 0;
+}
+
+/* 백그라운그 이미지 */
+
+#bg img {
+    width: 650px;
+    height: auto;
+}
+
+#bg {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
