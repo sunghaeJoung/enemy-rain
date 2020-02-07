@@ -9,7 +9,8 @@ var audio = new Audio("dying.wav") ;
 function gameStop() {
     bg.style.opacity = 0.6;
     gameover.style.display = "block";
-    // clearInterval(stop);
+   // clearInterval(stop); stop이 전역변수가 아니라서 clearInterval이 동작이 안하는건데
+   // stop을 전역으로 빼면 stop버튼은 동작되는데 start버튼을 안눌러도 귀신이 내려온다... 
 }
 
 function gameStart() {
