@@ -6,75 +6,60 @@ let button = document.querySelector("button"),
     //귀신 죽는 소리 
 var audio = new Audio("dying.wav") ;
 
-function gameStop() {
-    bg.style.opacity = 0.6;
-    gameover.style.display = "block";
-   // clearInterval(stop); stop이 전역변수가 아니라서 clearInterval이 동작이 안하는건데
-   // stop을 전역으로 빼면 stop버튼은 동작되는데 start버튼을 안눌러도 귀신이 내려온다... 
-}
 
-function gameStart() {
-    bg.style.opacity = 1;
-    gameover.style.display = "none";
+class Enemy {
+    constructor() { 
+        this.ghost = document.createElement("span");
+        this.ghost.classList.add("ghost");
+        bg.appendChild(this.ghost)
 
-    class Enemy {
-        constructor() {
-            const ghost = document.createElement("span");
-            ghost.classList.add("ghost");
-            bg.appendChild(ghost)
-            this.dropPoint = Math.floor(Math.random() * 600) 
-            let point = this.dropPoint
-            ghost.style.left = point + "px"
-        
-        //귀신 떨구고 죽기
-            let drop = setInterval(function(){
-                let right = hero.offsetLeft + 44
-                let left = hero.offsetLeft - 44
-                if (ghost.offsetTop === 380 && 
-                    ghost.offsetLeft <= right && ghost.offsetLeft >= left) {
-                        ghost.classList.add("ghost-die")
-                        audio.play();
-                        setTimeout(function() {
-                            ghost.classList.add("ghost-bye");
-                        }, 3000)
-                        clearInterval(drop);
-                    
-                } else if (ghost.offsetTop < 440) {
-                    ghost.style.top = (ghost.offsetTop + 10) + "px"
-                } else if (ghost.offsetTop === 440) {
-                
-                    //1초뒤 귀신 사라짐
-                    setTimeout(function() {
-                        ghost.classList.add("ghost-bye");
-                    }, 1000)
-                    clearInterval(drop);
-                }
-            }, 100)
-        }
+        //귀신이 떨어지는 x축 랜덤
+        this.ghost.style.left = Math.floor(Math.random() * 600)  + "px"
+
+        //떨어지고 죽는 함수 0.1초마다 실행
+        //setInterval을 멈추고 싶을 때(clearInterval), 변수에 저장한다. -> 변수가 카드 취소할 때, 영수증과 같은 역할
+        //하지만 constructor안에 있기 때문에 drop이 실행이 안된다. -> this를 사용하면 접근 가능!
+        this.movemonet = setInterval(() => { 
+            this.drop();
+        }, 100); 
     }
 
-    let stop = setInterval(function() {
-        let goEnemy = new Enemy();
-    }, 2000)
+    //귀신 떨어지고 죽기
+    drop = () => {
+        this.ghost.style.top = this.ghost.offsetTop + 10 + "px"
 
+        //영웅 바운더리 설정
+        let right = hero.offsetLeft + 44
+        let left = hero.offsetLeft - 44
+
+        //귀신이 영웅이랑 닿았을 때 죽음
+        if (this.ghost.offsetTop === 380 && this.ghost.offsetLeft <= right && this.ghost.offsetLeft >= left) {
+            clearInterval(this.movemonet);
+            this.ghost.classList.add("ghost-die")
+            audio.play();
+            setTimeout(() => {
+                bg.removeChild(this.ghost);;
+            }, 2000)
+
+        // 바닥에 닿으면 죽고 사라짐
+        } else if (this.ghost.offsetTop === 440) {
+            clearInterval(this.movemonet);
+            bg.removeChild(this.ghost);
+        }
+    }    
+}
+
+gameStart = () => {
+    setInterval(() => {
+        let goEnemy = new Enemy();
+    }, 1000);
+}
+
+gameStop = () => {
+    bg.style.opacity = 0.6;
+    gameover.style.display = "block";
+    clearInterval(gameStart); //stop은 안먹는다아
 }
 
 startBtn.addEventListener("click", gameStart);
 stopBtn.addEventListener("click", gameStop);
-
-
-
-    // const drop = () => {    
-    //     let rrr = setInterval(function(){
-    //         if (ghost.style.top !== "440px") {
-    //            ghost.style.top = (ghost.offsetTop + 10) + "px"
-    //         } 
-    //     }, 1000)
-    // }
-
-    // const die = () => {
-    //     if (ghost.style.top === "440px") {
-    //         ghost.classList.add("ghost-die");
-    //     }
-    // }
-    
