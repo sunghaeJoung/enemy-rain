@@ -58,7 +58,7 @@ gameStart = () => {
 gameStop = () => {
     bg.style.opacity = 0.6;
     gameover.style.display = "block";
-    clearInterval(gameStart); //stop 버튼을 누르면 귀신이 안떨어지게 하고 싶은데 안된다..
+    clearInterval(gameStart); //stop 버튼을 작동안됨
 }
 
 startBtn.addEventListener("click", gameStart);
